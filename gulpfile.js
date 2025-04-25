@@ -6,8 +6,11 @@ import gulpSass from 'gulp-sass'
 import rename from 'gulp-rename'
 import autoprefixer from 'gulp-autoprefixer'
 import uglify from 'gulp-uglify'
-import imagemin from 'gulp-imagemin'
+import imagemin, { svgo, gifsicle, mozjpeg, optipng } from 'gulp-imagemin'
 import { create as createBrowserSync } from 'browser-sync'
+
+// TODO: implementar cache
+// TODO: implementar clear cache e excluir a pasta dist antes do build
 
 const { src, dest } = gulp
 
@@ -29,10 +32,18 @@ function buildScripts() {
 }
 
 function compressImages() {
-  // TODO: caso o arquivo fonte já esteja em webp, só copiar para a pasta dist
-
-  return src('./assets/src/img/**/*.svg')
-    .pipe(imagemin())
+  return src('./assets/src/img/**/*')
+    .pipe(imagemin([
+      gifsicle({ interlaced: true }),
+      mozjpeg({ quality: 75, progressive: true }),
+      optipng({ optimizationLevel: 5 }),
+      svgo({
+        plugins: [
+          { name: 'removeViewBox', active: true },
+          { name: 'cleanupIDs', active: false }
+        ]
+      })
+    ]))
     .pipe(dest('./assets/dist/img/'))
 }
 
