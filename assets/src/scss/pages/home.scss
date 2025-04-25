@@ -1,3 +1,5 @@
+@use '../partials/variables' as *;
+
 body {
-  background-color: green;
+  background-color: $mainColor;
 }
