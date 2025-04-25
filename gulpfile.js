@@ -18,7 +18,7 @@ function buildStyles() {
   const sass = gulpSass(dartSass)
 
   return src('./assets/src/scss/**/*.scss')
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError)) // TODO: verificar se precisa desse "on error"
+    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(autoprefixer())
     .pipe(rename({ suffix: '.min' }))
     .pipe(dest('./assets/dist/css/'))
