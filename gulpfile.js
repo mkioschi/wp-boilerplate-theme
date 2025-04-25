@@ -1,6 +1,6 @@
 'use strict'
 
-import gulp from 'gulp'
+import gulp, { parallel } from 'gulp'
 import * as dartSass from 'sass'
 import gulpSass from 'gulp-sass'
 import rename from 'gulp-rename'
@@ -31,7 +31,7 @@ function buildScripts() {
     .pipe(dest('./assets/dist/js/'))
 }
 
-function compressImages() {
+function buildImages() {
   return src('./assets/src/img/**/*')
     .pipe(imagemin([
       gifsicle({ interlaced: true }),
@@ -50,7 +50,7 @@ function compressImages() {
 function watch() {
   gulp.watch('./assets/src/scss/**/*.scss', buildStyles)
   gulp.watch('./assets/src/js/**/*.js', buildScripts)
-  gulp.watch('./assets/src/img/**/*', compressImages)
+  gulp.watch('./assets/src/img/**/*', buildImages)
 
   const browserSync = createBrowserSync()
   browserSync.init({
@@ -61,7 +61,8 @@ function watch() {
   })
 }
 
-gulp.task('styles:build', buildStyles)
-gulp.task('scripts:build', buildScripts)
-gulp.task('images:compress', compressImages)
+gulp.task('build:styles', buildStyles)
+gulp.task('build:scripts', buildScripts)
+gulp.task('build:images', buildImages)
+gulp.task('build', parallel(buildStyles, buildScripts, buildImages))
 gulp.task('watch', watch)

@@ -2,7 +2,11 @@
   "name": "wp-boilerplate-theme",
   "type": "module",
   "scripts": {
-    "dev": "pnpm dlx gulp watch"
+    "dev": "pnpm dlx gulp watch",
+    "build": "pnpm dlx gulp build",
+    "build:styles": "pnpm dlx gulp build:styles",
+    "build:scripts": "pnpm dlx gulp build:scripts",
+    "build:images": "pnpm dlx gulp build:images"
   },
   "devDependencies": {
     "browser-sync": "^3.0.4",
