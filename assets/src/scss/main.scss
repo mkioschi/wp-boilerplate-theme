@@ -1,0 +1,6 @@
+@use './partials/variables' as *;
+@use './partials/reset' as *;
+
+body {
+  background-color: $mainColor;
+}
